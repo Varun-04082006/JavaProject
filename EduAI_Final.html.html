@@ -1,0 +1,2930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #18181b !important;
+            color: #e5e7eb !important;
+        }
+        body.dark-mode .bg-white { background: #23232a !important; color: #e5e7eb !important; }
+        body.dark-mode .text-gray-800, body.dark-mode .text-gray-900 { color: #e5e7eb !important; }
+        body.dark-mode .text-gray-600, body.dark-mode .text-gray-500 { color: #a1a1aa !important; }
+        body.dark-mode .bg-gray-50 { background: #23232a !important; }
+        body.dark-mode .bg-gray-100 { background: #23232a !important; }
+        body.dark-mode .bg-gray-200 { background: #23232a !important; }
+        body.dark-mode .border-gray-200 { border-color: #444 !important; }
+        body.dark-mode .shadow, body.dark-mode .shadow-lg, body.dark-mode .shadow-2xl { box-shadow: none !important; }
+        body.dark-mode .btn-primary { background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%) !important; color: #fff !important; }
+        body.dark-mode .form-input { background: #18181b !important; color: #e5e7eb !important; border-color: #444 !important; }
+        body.dark-mode .rounded-lg { border-radius: 0.5rem; }
+        body.dark-mode .bg-indigo-600 { background: #6366f1 !important; }
+        body.dark-mode .bg-green-100 { background: #23232a !important; }
+        body.dark-mode .bg-blue-100 { background: #23232a !important; }
+        body.dark-mode .bg-purple-100 { background: #23232a !important; }
+        body.dark-mode .bg-yellow-100 { background: #23232a !important; }
+        body.dark-mode .text-indigo-600 { color: #a5b4fc !important; }
+        body.dark-mode .text-green-600 { color: #6ee7b7 !important; }
+        body.dark-mode .text-blue-600 { color: #93c5fd !important; }
+        body.dark-mode .text-purple-600 { color: #c4b5fd !important; }
+        body.dark-mode .text-yellow-600 { color: #fde68a !important; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAI Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .card-shadow:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #6366f1;
+            margin: 0 1px;
+            animation: typing 1.2s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+        
+        .filter-tag {
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        
+        .filter-tag:hover {
+            transform: translateY(-1px);
+        }
+        
+        .filter-tag.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        .insight-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .insight-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .captcha-container {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 12px;
+        }
+        
+        .captcha-text {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 20px;
+            font-weight: bold;
+            user-select: none;
+        }
+        
+        .input-error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 1px #ef4444;
+        }
+        
+        .password-strength {
+            height: 3px;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+        
+        .strength-weak { background-color: #ef4444; width: 33%; }
+        .strength-medium { background-color: #f59e0b; width: 66%; }
+        .strength-strong { background-color: #10b981; width: 100%; }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .password-rule {
+            transition: color 0.2s ease;
+            font-size: 11px;
+        }
+        
+        .password-rule.valid {
+            color: #10b981;
+        }
+        
+        .password-rule.invalid {
+            color: #ef4444;
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            margin: -8px 0 0 -8px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .focus-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .chat-message {
+            animation: messageSlide 0.2s ease-out;
+        }
+        
+        @keyframes messageSlide {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notification-item {
+            animation: notificationSlide 0.3s ease-out;
+        }
+        
+        @keyframes notificationSlide {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        .form-input {
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .stat-card {
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body id="mainBody" class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- Login Page -->
+    <div id="loginPage" class="flex-grow flex items-center justify-center gradient-bg p-4">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 fade-in">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-full mb-3">
+                    <i class="fas fa-graduation-cap text-indigo-600 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">EduAI Platform</h1>
+                <p class="text-sm text-gray-600 mt-1">Sign in to access the dashboard</p>
+            </div>
+            
+            <!-- Alerts Container -->
+            <div id="alertsContainer" class="mb-4"></div>
+            
+            <form id="signInForm" class="space-y-4" novalidate>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400 text-sm"></i>
+                        </div>
+                        <input id="email" name="email" type="email" required
+                               class="pl-9 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors form-input"
+                               placeholder="official@education.gov.in">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400 text-sm"></i>
+                        </div>
+                        <input id="password" name="password" type="password" required
+                               class="pl-9 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors form-input"
+                               placeholder="••••••••••">
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- CAPTCHA -->
+                <div class="captcha-container">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-gray-600">Security Check</span>
+                        <button type="button" id="refreshCaptcha" class="text-indigo-600 hover:text-indigo-700 text-xs">
+                            <i class="fas fa-sync-alt"></i>
+now                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="captcha-text" id="captchaText"></div>
+                        <input id="captchaInput" type="text" required
+                               class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs form-input"
+                               placeholder="Enter code">
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember" name="remember" type="checkbox"
+                               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    </div>
+                    <a href="#" id="forgotPasswordLink" class="text-xs text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                </div>
+                
+                <button type="submit" id="signInButton"
+                        class="w-full btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium focus-ring">
+                    <span id="signInButtonText">Login Now</span>
+                    <i id="signInLoader" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-xs text-gray-600 mb-3">Don't have an account?</p>
+                <button id="registerButton" class="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus-ring transition-colors">
+                    <i class="fas fa-user-plus mr-2"></i>Register New Account
+                </button>
+            </div>
+            
+            <div class="mt-4 text-center text-xs text-gray-500">
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+            <button id="closeForgotPasswordModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+            <h2 class="text-lg font-bold mb-4 text-gray-800">Reset Password</h2>
+            <form id="forgotPasswordForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="forgotEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input" placeholder="Enter your registered email">
+                </div>
+                <button type="submit" class="w-full btn-primary text-white py-2 px-4 rounded-lg font-medium">Send Reset Link</button>
+            </form>
+            <div id="forgotPasswordMessage" class="mt-3 text-sm text-center"></div>
+        </div>
+    </div>
+                <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+                Secured with 256-bit SSL encryption
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Page -->
+    <div id="registerPage" class="hidden flex-grow flex items-center justify-center gradient-bg p-4">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 fade-in">
+            <div class="text-center mb-4">
+                <div class="inline-flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-full mb-3">
+                    <i class="fas fa-user-plus text-indigo-600 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">Create Account</h1>
+                <p class="text-sm text-gray-600 mt-1">Join the EduAI Platform</p>
+            </div>
+            
+            <!-- Registration Alerts Container -->
+            <div id="regAlertsContainer" class="mb-4"></div>
+            
+            <form id="registerForm" class="space-y-3" novalidate>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="firstName" class="block text-xs font-medium text-gray-700 mb-1">First Name</label>
+                        <input id="firstName" name="firstName" type="text" required
+                               class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-sm form-input"
+                               placeholder="John">
+                    </div>
+                    <div>
+                        <label for="lastName" class="block text-xs font-medium text-gray-700 mb-1">Last Name</label>
+                        <input id="lastName" name="lastName" type="text" required
+                               class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-sm form-input"
+                               placeholder="Doe">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="regEmail" class="block text-xs font-medium text-gray-700 mb-1">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400 text-sm"></i>
+                        </div>
+                        <input id="regEmail" name="regEmail" type="email" required
+                               class="pl-9 w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input"
+                               placeholder="your.email@education.gov.in">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="department" class="block text-xs font-medium text-gray-700 mb-1">Department</label>
+                        <select id="department" name="department" required
+                                class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-sm form-input">
+                            <option value="">Select</option>
+                            <option value="Ministry of Education">MoE</option>
+                            <option value="University Grants Commission">UGC</option>
+                            <option value="AICTE">AICTE</option>
+                            <option value="Higher Education Department">HED</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="role" class="block text-xs font-medium text-gray-700 mb-1">Role</label>
+                        <select id="role" name="role" required
+                                class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-sm form-input">
+                            <option value="">Select</option>
+                            <option value="Official">Official</option>
+                            <option value="Director">Director</option>
+                            <option value="Manager">Manager</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="regPassword" class="block text-xs font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400 text-sm"></i>
+                        </div>
+                        <input id="regPassword" name="regPassword" type="password" required
+                               class="pl-9 w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input"
+                               placeholder="Create a strong password">
+                        <button type="button" id="toggleRegPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Password Rules -->
+                    <div class="mt-2 p-2 bg-gray-50 rounded text-xs">
+                        <p class="font-medium text-gray-700 mb-1">Password Requirements:</p>
+                        <div class="space-y-0.5">
+                            <div id="ruleLength" class="password-rule flex items-center">
+                                <i class="fas fa-circle text-xs mr-1" style="font-size: 4px;"></i>
+                                8-16 characters
+                            </div>
+                            <div id="ruleUppercase" class="password-rule flex items-center">
+                                <i class="fas fa-circle text-xs mr-1" style="font-size: 4px;"></i>
+                                Uppercase letter
+                            </div>
+                            <div id="ruleLowercase" class="password-rule flex items-center">
+                                <i class="fas fa-circle text-xs mr-1" style="font-size: 4px;"></i>
+                                Lowercase letter
+                            </div>
+                            <div id="ruleNumber" class="password-rule flex items-center">
+                                <i class="fas fa-circle text-xs mr-1" style="font-size: 4px;"></i>
+                                Number (0-9)
+                            </div>
+                            <div id="ruleSpecial" class="password-rule flex items-center">
+                                <i class="fas fa-circle text-xs mr-1" style="font-size: 4px;"></i>
+                                Special character
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="confirmPassword" class="block text-xs font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400 text-sm"></i>
+                        </div>
+                        <input id="confirmPassword" name="confirmPassword" type="password" required
+                               class="pl-9 w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input"
+                               placeholder="Confirm password">
+                    </div>
+                </div>
+                
+                <!-- Registration CAPTCHA -->
+                <div class="captcha-container">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-gray-600">Security Check</span>
+                        <button type="button" id="refreshRegCaptcha" class="text-indigo-600 hover:text-indigo-700 text-xs">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="captcha-text" id="regCaptchaText"></div>
+                        <input id="regCaptchaInput" type="text" required
+                               class="flex-1 px-2 py-1 border border-gray-300 rounded text-xs form-input"
+                               placeholder="Enter code">
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <input id="agreeTerms" name="agreeTerms" type="checkbox" required
+                           class="h-3 w-3 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="agreeTerms" class="ml-2 block text-xs text-gray-700">
+                        I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms</a> and <a href="#" class="text-indigo-600 hover:text-indigo-500">Privacy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" id="registerButton"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm font-medium focus-ring transition-colors">
+                    <span id="registerButtonText">Create Account</span>
+                    <i id="registerLoader" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </button>
+            </form>
+            
+            <!-- Back Button -->
+            <div class="mt-4 text-center">
+                <button id="backToLoginButton" class="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus-ring transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Login
+                </button>
+            </div>
+            
+            <div class="mt-4 text-center text-xs text-gray-500">
+                <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+                Your information is secure and encrypted
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Dashboard -->
+    <div id="dashboardPage" class="hidden flex-grow">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-14">
+                    <button id="darkModeToggle" class="mr-4 px-3 py-1 rounded-lg text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 focus-ring transition-colors">
+                        <i class="fas fa-moon"></i> Dark Mode
+                    </button>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <i class="fas fa-graduation-cap text-indigo-600 text-xl mr-2"></i>
+                            <h1 class="text-lg font-bold text-gray-800">EduAI Platform</h1>
+                        </div>
+                        <nav class="hidden md:ml-8 md:flex space-x-6">
+                            <a href="#" data-page="dashboard" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">Dashboard</a>
+                            <a href="#" data-page="documents" class="nav-link text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">Documents</a>
+                            <a href="#" data-page="profile" class="nav-link text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">Profile</a>
+                            <a href="#" data-page="settings" class="nav-link text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">Settings</a>
+                        </nav>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="text-xs text-gray-600">
+                            <i class="fas fa-user-shield text-green-500 mr-1"></i>
+                            <span id="userRole">Official</span>
+                        </div>
+                        
+                        <!-- Notification Bell -->
+                        <div class="relative">
+                            <button id="notificationButton" class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus-ring relative">
+                                <i class="fas fa-bell"></i>
+                                <span id="notificationBadge" class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                            </button>
+                            
+                            <!-- Notifications Dropdown -->
+                            <div id="notificationsDropdown" class="hidden origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                                    <h3 class="text-sm font-semibold text-gray-800">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div class="notification-item px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-file-alt text-blue-500 mt-0.5"></i>
+                                            </div>
+                                            <div class="ml-3 flex-1">
+                                                <p class="text-sm text-gray-900">New Policy Document Added</p>
+                                                <p class="text-xs text-gray-500">National Education Policy 2023 has been uploaded</p>
+                                                <p class="text-xs text-gray-400 mt-1">2 minutes ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="notification-item px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-exclamation-triangle text-yellow-500 mt-0.5"></i>
+                                            </div>
+                                            <div class="ml-3 flex-1">
+                                                <p class="text-sm text-gray-900">Compliance Deadline Approaching</p>
+                                                <p class="text-xs text-gray-500">UGC Accreditation Framework deadline in 5 days</p>
+                                                <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="notification-item px-4 py-3 hover:bg-gray-50">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
+                                            </div>
+                                            <div class="ml-3 flex-1">
+                                                <p class="text-sm text-gray-900">Document Approved</p>
+                                                <p class="text-xs text-gray-500">Digital Learning Initiative has been approved</p>
+                                                <p class="text-xs text-gray-400 mt-1">3 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-2 border-t border-gray-200">
+                                    <button class="text-xs text-indigo-600 hover:text-indigo-500 font-medium">View all notifications</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Profile Icon -->
+                        <div class="relative">
+                            <button id="userMenuButton" class="flex items-center text-sm rounded-full focus-ring">
+                                <i class="fas fa-user-circle text-gray-600 text-xl"></i>
+                            </button>
+                            <div id="userMenu" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                <div class="py-1">
+                                    <a href="#" data-page="profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user mr-2"></i>Profile
+                                    </a>
+                                    <a href="#" data-page="settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-cog mr-2"></i>Settings
+                                    </a>
+                                    <hr class="my-1">
+                                    <a href="#" id="signOutButton" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Sign out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <!-- Dashboard Page Content -->
+            <div id="dashboardContent" class="page-content active">
+                <!-- Dashboard Widgets -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-2">Quick Stats Widget</h3>
+                        <div id="widgetStats" class="text-lg font-bold text-indigo-600">Documents: 3 | Users: 3</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-2">API Integration Demo</h3>
+                        <button id="apiDemoBtn" class="btn-primary text-white px-4 py-2 rounded">Fetch Demo Data</button>
+                        <div id="apiDemoResult" class="mt-2 text-sm text-gray-700"></div>
+                    </div>
+                </div>
+    <!-- User Management Page -->
+    <div id="usermanagementContent" class="page-content hidden">
+        <div class="mb-6 p-4 bg-blue-100 border border-blue-300 rounded-lg text-blue-900">
+            <h2 class="text-xl font-bold mb-2"><i class="fas fa-users mr-2"></i>User Management</h2>
+            <p>Manage users for your organization. Add, remove, and assign roles. Only Admins can remove users. Use the form below to add a new user.</p>
+            <ul class="list-disc pl-6 mt-2 text-sm">
+                <li>Admins can add or remove users.</li>
+                <li>Assign roles: Official, Director, Manager, Admin.</li>
+                <li>All changes are logged in the Audit Trail.</li>
+            </ul>
+        </div>
+        <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-blue-700">
+            <i class="fas fa-info-circle mr-2"></i>
+            <b>User Management</b> lets you add, remove, and assign roles to users in your organization. Only Admins can remove users. Use the form below to add a new user.
+        </div>
+                    <tr>
+                        <td class="px-4 py-2">user@education.gov.in</td>
+                        <td class="px-4 py-2">Official</td>
+                        <td class="px-4 py-2"><button class="text-red-600 hover:text-red-900">Remove</button></td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2">director@ugc.gov.in</td>
+                        <td class="px-4 py-2">Director</td>
+                        <td class="px-4 py-2"><button class="text-red-600 hover:text-red-900">Remove</button></td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2">admin@education.gov.in</td>
+                        <td class="px-4 py-2">Admin</td>
+                        <td class="px-4 py-2"><button class="text-red-600 hover:text-red-900">Remove</button></td>
+                    </tr>
+        <div class="bg-white rounded-lg shadow p-4 mb-6">
+            <h2 class="text-base font-semibold text-gray-800 mb-3">User Management</h2>
+            <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0 mb-2">
+                <input id="newUserEmail" type="email" class="w-full md:w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input" placeholder="Email">
+                <select id="newUserRole" class="w-full md:w-1/6 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                    <option value="Official">Official</option>
+                    <option value="Director">Director</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <button id="addUserBtn" class="btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium">Add User</button>
+            </div>
+            <table class="min-w-full divide-y divide-gray-200 mb-2">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Help & FAQ Page -->
+    <div id="helpfaqContent" class="page-content hidden">
+        <div class="mb-6 p-4 bg-yellow-100 border border-yellow-300 rounded-lg text-yellow-900">
+            <h2 class="text-xl font-bold mb-2"><i class="fas fa-question-circle mr-2"></i>Help & FAQ Center</h2>
+            <p>Find answers to common questions, tips for using the platform, and contact support via the AI Assistant.</p>
+            <ul class="list-disc pl-6 mt-2 text-sm">
+                <li><b>How do I upload a document?</b> Click 'Upload Document' and fill the form.</li>
+                <li><b>How do I add a user?</b> Use the User Management panel.</li>
+                <li><b>How do I export documents?</b> Use the 'Export CSV' button above the table.</li>
+                <li><b>How do I share a document?</b> Click 'Share' in the document actions.</li>
+                <li><b>How do I get support?</b> Contact us via the AI Assistant panel.</li>
+            </ul>
+        </div>
+        <div class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-yellow-700">
+            <i class="fas fa-question-circle mr-2"></i>
+            <b>Welcome to the Help & FAQ Center!</b> Here you can find answers to common questions, tips for using the platform, and contact support via the AI Assistant.
+        </div>
+        <div class="mb-4 p-3 bg-white border border-gray-200 rounded text-gray-700">
+            <h3 class="font-semibold mb-2">Frequently Asked Questions</h3>
+            <ul class="list-disc pl-6 text-sm">
+                <li><b>How do I upload a document?</b> Click 'Upload Document' and fill the form.</li>
+                <li><b>How do I add a user?</b> Use the User Management panel.</li>
+                <li><b>How do I export documents?</b> Use the 'Export CSV' button above the table.</li>
+                <li><b>How do I share a document?</b> Click 'Share' in the document actions.</li>
+                <li><b>How do I get support?</b> Contact us via the AI Assistant panel.</li>
+            </ul>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 mb-6">
+            <h2 class="text-base font-semibold text-gray-800 mb-3">Help & FAQ Center</h2>
+            <ul class="list-disc pl-6 text-sm text-gray-700">
+                <li>How do I upload a document? <span class="text-indigo-600">Click 'Upload Document' and fill the form.</span></li>
+                <li>How do I add a user? <span class="text-indigo-600">Use the User Management panel.</span></li>
+                <li>How do I export documents? <span class="text-indigo-600">Use the 'Export CSV' button above the table.</span></li>
+                <li>How do I share a document? <span class="text-indigo-600">Click 'Share' in the document actions.</span></li>
+                <li>How do I get support? <span class="text-indigo-600">Contact us via the AI Assistant panel.</span></li>
+            </ul>
+        </div>
+    </div>
+                <!-- Audit Trail Panel -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h2 class="text-base font-semibold text-gray-800 mb-3">Audit Trail</h2>
+                    <div id="auditTrail" class="space-y-2 text-sm text-gray-700"></div>
+                </div>
+                <!-- Activity Log Panel -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h2 class="text-base font-semibold text-gray-800 mb-3">Activity Log</h2>
+                    <div id="activityLog" class="space-y-2 text-sm text-gray-700"></div>
+                </div>
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow p-4 mb-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold mb-1">Welcome to the Dashboard</h2>
+                            <p class="text-xs text-indigo-100">Access and manage educational resources and AI-powered insights</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-indigo-100">Logged in as</p>
+                            <p class="text-sm font-semibold" id="welcomeUser">Regular User</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-100 rounded-lg p-2">
+                                <i class="fas fa-file-alt text-blue-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs font-medium text-gray-500">Total Documents</p>
+                                <p class="text-lg font-semibold text-gray-900">1,234</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-100 rounded-lg p-2">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs font-medium text-gray-500">Compliance Rate</p>
+                                <p class="text-lg font-semibold text-gray-900">94%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-yellow-100 rounded-lg p-2">
+                                <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs font-medium text-gray-500">Pending Actions</p>
+                                <p class="text-lg font-semibold text-gray-900">3</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-lg p-2">
+                                <i class="fas fa-users text-purple-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs font-medium text-gray-500">Active Users</p>
+                                <p class="text-lg font-semibold text-gray-900">89</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Insights -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h2 class="text-base font-semibold text-gray-800 mb-3">AI Insights</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="insight-card bg-gray-50 rounded-lg p-3">
+                            <div class="flex items-center mb-2">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded p-1.5">
+                                    <i class="fas fa-chart-line text-indigo-600 text-xs"></i>
+                                </div>
+                                <div class="ml-2">
+                                    <h3 class="text-xs font-medium text-gray-500">Policy Trends</h3>
+                                    <p class="text-sm font-semibold text-gray-800">+12% Growth</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600">Recent policy updates show a 12% increase in digital education initiatives.</p>
+                        </div>
+                        
+                        <div class="insight-card bg-gray-50 rounded-lg p-3">
+                            <div class="flex items-center mb-2">
+                                <div class="flex-shrink-0 bg-green-100 rounded p-1.5">
+                                    <i class="fas fa-check-circle text-green-600 text-xs"></i>
+                                </div>
+                                <div class="ml-2">
+                                    <h3 class="text-xs font-medium text-gray-500">Compliance Status</h3>
+                                    <p class="text-sm font-semibold text-gray-800">94% Complete</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600">94% of institutions have complied with the latest accreditation guidelines.</p>
+                        </div>
+                        
+                        <div class="insight-card bg-gray-50 rounded-lg p-3">
+                            <div class="flex items-center mb-2">
+                                <div class="flex-shrink-0 bg-yellow-100 rounded p-1.5">
+                                    <i class="fas fa-exclamation-triangle text-yellow-600 text-xs"></i>
+                                </div>
+                                <div class="ml-2">
+                                    <h3 class="text-xs font-medium text-gray-500">Action Required</h3>
+                                    <p class="text-sm font-semibold text-gray-800">3 Pending</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600">3 regulations require immediate attention for implementation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <!-- Quick Actions removed as requested -->
+            </div>
+            
+            <!-- Documents Page Content -->
+             <div id="documentsContent" class="page-content">
+                  <!-- <h2>📤 Upload a New Document</h2>
+  <form id="uploadForm" onsubmit="uploadDocument(event)" style="margin-bottom: 20px;">
+    <label>Title:</label>
+    <input type="text" id="docTitle" required><br><br>
+
+    <label>Type:</label>
+    <input type="text" id="docType" required><br><br>
+
+    <label>Tags (comma separated):</label>
+    <input type="text" id="docTags"><br><br>
+
+    <button type="submit">Upload Document</button>
+  </form>
+
+  <h2>📄 Uploaded Documents</h2>
+  <button onclick="loadDocuments()">Refresh Documents</button>
+  <table id="docTable" border="1" style="margin-top: 10px; width: 100%;">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Tags</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="docTableBody">
+      <tr><td colspan="5">No documents found.</td></tr>
+    </tbody>
+  </table> -->
+
+                  <!-- <h2>📄 Uploaded Documents</h2>
+  <button onclick="loadDocuments()">Refresh Documents</button>
+  <table id="docTable" border="1" style="margin-top: 10px; width: 100%;">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Tags</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="docTableBody">
+      <tr><td colspan="5">No documents found.</td></tr>
+    </tbody>
+  </table> -->
+  <!-- <div id="documentsContent" class="page-content bg-gray-900 text-gray-200 p-6 rounded-xl shadow-lg">
+
+  <h2 class="text-2xl font-bold mb-4 text-blue-400">📤 Upload a New Document</h2>
+
+  <form id="uploadForm" onsubmit="uploadDocument(event)" class="space-y-4 mb-8">
+    <div>
+      <label for="docTitle" class="block mb-1 text-gray-300">Title:</label>
+      <input type="text" id="docTitle" required
+        class="w-full p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div>
+      <label for="docType" class="block mb-1 text-gray-300">Type:</label>
+      <input type="text" id="docType" required
+        class="w-full p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div>
+      <label for="docTags" class="block mb-1 text-gray-300">Tags (comma separated):</label>
+      <input type="text" id="docTags"
+        class="w-full p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <button type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+      Upload Document
+    </button>
+  </form>
+
+  <h2 class="text-2xl font-bold mb-4 text-green-400">📄 Uploaded Documents</h2>
+  <button onclick="loadDocuments()"
+    class="mb-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+    Refresh Documents
+  </button>
+
+  <div class="overflow-x-auto">
+    <table id="docTable" class="w-full border border-gray-700 rounded-lg shadow-md bg-gray-800 text-gray-100">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="p-3 text-left">Title</th>
+          <th class="p-3 text-left">Type</th>
+          <th class="p-3 text-left">Tags</th>
+          <th class="p-3 text-left">Date</th>
+          <th class="p-3 text-left">Status</th>
+        </tr>
+      </thead>
+      <tbody id="docTableBody" class="divide-y divide-gray-700">
+        <tr><td colspan="5" class="text-center p-3 text-gray-400">No documents found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div> -->
+
+        <!-- Document Preview Modal -->
+        <div id="docPreviewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
+                <button id="closeDocPreviewModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+                <h2 class="text-lg font-bold mb-4 text-gray-800">Document Preview</h2>
+                <div id="docPreviewContent" class="min-h-[300px] flex items-center justify-center"></div>
+            </div>
+        </div>
+        <!-- Document Search & Filter Bar -->
+        <div class="bg-white rounded-lg shadow p-4 mb-4 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+            <input id="docSearchInput" type="text" class="w-full md:w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input" placeholder="Search by title...">
+            <select id="docTypeFilter" class="w-full md:w-1/6 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                <option value="">All Types</option>
+                <option value="Policy">Policy</option>
+                <option value="Regulation">Regulation</option>
+                <option value="Scheme">Scheme</option>
+                <option value="Project">Project</option>
+            </select>
+            <select id="docStatusFilter" class="w-full md:w-1/6 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Draft">Draft</option>
+                <option value="Archived">Archived</option>
+            </select>
+            <input id="docDateFilter" type="date" class="w-full md:w-1/6 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+            <button id="docFilterClear" class="w-full md:w-1/6 btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium">Clear</button>
+        </div>
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Documents</h1>
+                    <p class="text-gray-600">Manage and search through all educational documents</p>
+                </div>
+                <!-- Document Upload Modal -->
+                <div id="uploadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                        <button id="closeUploadModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+                        <h2 class="text-lg font-bold mb-4 text-gray-800">Upload Document</h2>
+                        <form id="documentUploadForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tags/Categories</label>
+                                <input type="text" name="docTags" class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input" placeholder="e.g. policy, compliance, digital">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date (optional)</label>
+                                <input type="date" name="docExpiry" class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Document Title</label>
+                                <input type="text" name="docTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input" placeholder="Title">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                                <select name="docType" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input">
+                                    <option value="Policy">Policy</option>
+                                    <option value="Regulation">Regulation</option>
+                                    <option value="Scheme">Scheme</option>
+                                    <option value="Project">Project</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Upload File</label>
+                                <input type="file" name="docFile" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input">
+                            </div>
+                            <button type="submit" class="w-full btn-primary text-white py-2 px-4 rounded-lg font-medium">Upload</button>
+                        </form>
+                        <div id="uploadMessage" class="mt-3 text-sm text-center"></div>
+                    </div>
+                </div>
+                
+                <!-- Document Filters -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Document Type</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                <option>All Types</option>
+                                <option>Policy</option>
+                                <option>Regulation</option>
+                                <option>Scheme</option>
+                                <option>Project</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+                            <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Source</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                <option>All Sources</option>
+                                <option>MoE</option>
+                                <option>UGC</option>
+                                <option>AICTE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                <option>All Status</option>
+                                <option>Active</option>
+                                <option>Draft</option>
+                                <option>Archived</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Table -->
+                <div class="bg-white rounded-lg shadow">
+                    <!-- Bulk Actions Bar -->
+                    <div class="flex items-center space-x-2 mb-2">
+                        <input type="checkbox" id="selectAllDocs" class="form-checkbox">
+                        <button id="bulkDownloadBtn" class="btn-primary text-white px-3 py-1 rounded text-sm font-medium">Bulk Download</button>
+                        <button id="bulkDeleteBtn" class="bg-red-600 text-white px-3 py-1 rounded text-sm font-medium">Bulk Delete</button>
+                        <button id="bulkStatusBtn" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm font-medium">Bulk Status Change</button>
+                        <button id="exportCSVBtn" class="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium">Export CSV</button>
+                    </div>
+                    <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-base font-semibold text-gray-800">All Documents</h2>
+                        <button id="openUploadModal" class="btn-primary text-white py-1 px-3 rounded text-sm font-medium focus-ring">
+                            <i class="fas fa-plus mr-1"></i>Upload Document
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-2 py-2"><input type="checkbox" id="selectAllDocsHead" class="form-checkbox"></th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Example document row with Share and file type support -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 py-2"><input type="checkbox" class="docRowCheckbox form-checkbox"></td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8 bg-blue-100 rounded flex items-center justify-center">
+                                                <i class="fas fa-file-word text-blue-600 text-xs"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Education Policy Draft</div>
+                                                <div class="text-xs text-gray-500">Word document for review</div>
+                                                <div class="text-xs text-gray-400">Version: 1.0 | <span class="text-yellow-600">Pending Approval</span></div>
+                                                <div class="text-xs text-blue-600">Tags: draft, word</div>
+                                                <div class="text-xs text-red-600">Expiry: 2025-11-30</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Word</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">MoE</td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">Oct 1, 2025</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Draft</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm font-medium flex flex-wrap gap-2">
+                                        <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Edit</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Download</button>
+                                        <button class="text-yellow-600 hover:text-yellow-900">Approve</button>
+                                        <button class="text-blue-600 hover:text-blue-900">History</button>
+                                        <button class="text-green-600 hover:text-green-900">Share</button>
+                                    </td>
+                                </tr>
+                                <!-- Consistent row markup for all documents -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 py-2"><input type="checkbox" class="docRowCheckbox form-checkbox"></td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8 bg-indigo-100 rounded flex items-center justify-center">
+                                                <i class="fas fa-file-alt text-indigo-600 text-xs"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">National Education Policy 2023</div>
+                                                <div class="text-xs text-gray-500">Comprehensive reforms in higher education</div>
+                                                <div class="text-xs text-gray-400">Version: 1.2 | <span class="text-green-600">Approved</span></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Policy</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">MoE</td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">Oct 15, 2023</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm font-medium flex flex-wrap gap-2">
+                                        <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Edit</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Download</button>
+                                        <button class="text-yellow-600 hover:text-yellow-900">Approve</button>
+                                        <button class="text-blue-600 hover:text-blue-900">History</button>
+                                    </td>
+                                </tr>
+                                <!-- Repeat above markup for other rows, updating content as needed -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 py-2"><input type="checkbox" class="docRowCheckbox form-checkbox"></td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8 bg-green-100 rounded flex items-center justify-center">
+                                                <i class="fas fa-file-alt text-green-600 text-xs"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">UGC Accreditation Framework</div>
+                                                <div class="text-xs text-gray-500">Updated institutional accreditation criteria</div>
+                                                <div class="text-xs text-gray-400">Version: 1.0 | <span class="text-yellow-600">Pending Approval</span></div>
+                                                <div class="text-xs text-blue-600">Tags: compliance, regulation</div>
+                                                <div class="text-xs text-red-600">Expiry: 2025-12-31</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Regulation</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">UGC</td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">Oct 10, 2023</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm font-medium flex flex-wrap gap-2">
+                                        <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Edit</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Download</button>
+                                        <button class="text-yellow-600 hover:text-yellow-900">Approve</button>
+                                        <button class="text-blue-600 hover:text-blue-900">History</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 py-2"><input type="checkbox" class="docRowCheckbox form-checkbox"></td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8 bg-yellow-100 rounded flex items-center justify-center">
+                                                <i class="fas fa-file-alt text-yellow-600 text-xs"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Digital Learning Initiative</div>
+                                                <div class="text-xs text-gray-500">Scheme for promoting digital education</div>
+                                                <div class="text-xs text-gray-400">Version: 2.0 | <span class="text-green-600">Approved</span></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Scheme</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">AICTE</td>
+                                    <td class="px-4 py-2 text-sm text-gray-500">Oct 5, 2023</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Draft</span>
+                                    </td>
+                                    <td class="px-4 py-2 text-sm font-medium flex flex-wrap gap-2">
+                                        <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Edit</button>
+                                        <button class="text-gray-600 hover:text-gray-900">Download</button>
+                                        <button class="text-yellow-600 hover:text-yellow-900">Approve</button>
+                                        <button class="text-blue-600 hover:text-blue-900">History</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Document Upload Modal -->
+                <div id="uploadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                        <button id="closeUploadModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+                        <h2 class="text-lg font-bold mb-4 text-gray-800">Upload Document</h2>
+                        <form id="documentUploadForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Document Title</label>
+                                <input type="text" name="docTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input" placeholder="Title">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                                <select name="docType" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input">
+                                    <option value="Policy">Policy</option>
+                                    <option value="Regulation">Regulation</option>
+                                    <option value="Scheme">Scheme</option>
+                                    <option value="Project">Project</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Upload File</label>
+                                <input type="file" name="docFile" required class="w-full px-3 py-2 border border-gray-300 rounded-lg form-input">
+                            </div>
+                            <button type="submit" class="w-full btn-primary text-white py-2 px-4 rounded-lg font-medium">Upload</button>
+                        </form>
+                        <div id="uploadMessage" class="mt-3 text-sm text-center"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Page Content -->
+            <div id="profileContent" class="page-content">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Profile</h1>
+                    <p class="text-gray-600">Manage your personal information and account settings</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Profile Information -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">Profile Information</h2>
+                            
+                            <div class="flex items-center mb-6">
+                                <div class="flex-shrink-0 h-20 w-20 bg-indigo-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-indigo-600 text-3xl"></i>
+                                </div>
+                                <button class="ml-4 bg-indigo-600 text-white py-1 px-3 rounded text-sm font-medium hover:bg-indigo-700 transition-colors">
+                                    Change Photo
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <p class="text-gray-900">Regular User</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <p class="text-gray-900">user@education.gov.in</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                                    <p class="text-gray-900">Higher Education Department</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                                    <p class="text-gray-900">Official</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+                                    <p class="text-gray-900">EDU2023-0456</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Joined Date</label>
+                                    <p class="text-gray-900">January 15, 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Activity -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Account Activity</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-600">Last Login</span>
+                                <span class="text-sm text-gray-900">Today at 10:30 AM</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-600">Documents Uploaded</span>
+                                <span class="text-sm text-gray-900">24</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-600">Downloads</span>
+                                <span class="text-sm text-gray-900">156</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-sm text-gray-600">Profile Views</span>
+                                <span class="text-sm text-gray-900">89</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-sm text-gray-600">Search Queries</span>
+                                <span class="text-sm text-gray-900">342</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h2>
+                        <div class="space-y-3">
+                            <a href="#" onclick="Navigation.switchPage('documents')" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-download text-indigo-600 mr-3"></i>
+                                <span class="text-sm font-medium text-gray-700">Download My Documents</span>
+                            </a>
+                            <a href="#" onclick="Navigation.switchPage('profile')" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-history text-indigo-600 mr-3"></i>
+                                <span class="text-sm font-medium text-gray-700">View Activity History</span>
+                            </a>
+                            <a href="#" onclick="Navigation.switchPage('settings')" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-key text-indigo-600 mr-3"></i>
+                                <span class="text-sm font-medium text-gray-700">Change Password</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Page Content -->
+            <div id="settingsContent" class="page-content">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Settings</h1>
+                    <p class="text-gray-600">Manage your account and site preferences</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Account Settings -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Account Settings</h2>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Notifications</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-900">Enabled</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only" checked>
+                                        <div class="w-10 h-6 bg-indigo-600 rounded-full"></div>
+                                        <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Two-Factor Authentication</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-500">Disabled</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only">
+                                        <div class="w-10 h-6 bg-gray-200 rounded-full"></div>
+                                        <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                    <option>English</option>
+                                    <option>Hindi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Time Zone</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                    <option>UTC (GMT+0)</option>
+                                    <option>IST (GMT+5:30)</option>
+                                    <option>EST (GMT-5:00)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Privacy Settings -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Privacy Settings</h2>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profile Visibility</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                    <option>Public</option>
+                                    <option>Private</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Activity Status</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm form-input">
+                                    <option>Visible to all</option>
+                                    <option>Visible to connections</option>
+                                    <option>Private</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Data Sharing</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-500">Limited</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only">
+                                        <div class="w-10 h-6 bg-gray-200 rounded-full"></div>
+                                        <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notification Settings -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Notification Preferences</h2>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Notifications</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-900">Enabled</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only" checked>
+                                            <div class="w-10 h-6 bg-indigo-600 rounded-full"></div>
+                                            <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Push Notifications</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-500">Enabled</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only">
+                                            <div class="w-10 h-6 bg-gray-200 rounded-full"></div>
+                                            <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">SMS Notifications</label>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-500">Disabled</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only">
+                                            <div class="w-10 h-6 bg-gray-200 rounded-full"></div>
+                                            <span class="toggle-dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- AI Chat Assistant -->
+        <div id="aiAssistant" class="fixed bottom-4 right-4 z-50">
+            <button id="aiAssistantButton" class="bg-indigo-600 text-white rounded-full p-3 shadow-lg hover:bg-indigo-700 transition-colors">
+                <i class="fas fa-robot"></i>
+            </button>
+            <div id="aiAssistantPanel" class="hidden absolute bottom-14 right-0 w-80 bg-white rounded-lg shadow-2xl">
+                <div class="bg-indigo-600 text-white p-3 rounded-t-lg flex justify-between items-center">
+                    <h3 class="text-sm font-semibold">AI Assistant</h3>
+                    <button id="closeAssistant" class="text-white hover:text-gray-200"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="chatMessages" class="h-64 overflow-y-auto p-3 space-y-2"></div>
+                <div class="p-3 border-t">
+                    <div class="flex">
+                        <input id="chatInput" type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm form-input" placeholder="Ask me anything...">
+                        <button id="sendMessage" class="ml-2 btn-primary text-white px-4 py-2 rounded-lg font-medium"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                    <div class="mt-3 text-xs text-gray-600 text-center">
+                        <strong>Contact Us:</strong> <a href="mailto:258r5a6703@cmrec.ac.in" class="text-indigo-600 hover:underline">258r5a6703@cmrec.ac.in</a> for help and solving issues
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-2 md:mb-0">
+                    <p class="text-xs">© CodeClashers 2025. All rights reserved.</p>
+                    <p class="text-xs text-gray-400">EduAI Platform</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-xs">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs">Terms</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs">Security</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // API Integration Demo
+        document.getElementById('apiDemoBtn').onclick = function() {
+            var result = document.getElementById('apiDemoResult');
+            result.textContent = 'Fetching...';
+            setTimeout(function() {
+                result.textContent = 'Demo API Data: { "status": "success", "documents": 3, "users": 3 }';
+            }, 1000);
+        };
+        // Accessibility: Focus ring for all buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.setAttribute('tabindex', '0');
+            btn.classList.add('focus-ring');
+        });
+        // User Management Logic
+        function renderUserTable() {
+            var body = document.getElementById('userTableBody');
+            if (!body) return;
+            body.innerHTML = '';
+            if (!window.userList) window.userList = [
+                { email: 'user@education.gov.in', role: 'Official' },
+                { email: 'director@ugc.gov.in', role: 'Director' },
+                { email: 'admin@education.gov.in', role: 'Admin' }
+            ];
+            window.userList.forEach(function(user, idx) {
+                var row = document.createElement('tr');
+                row.innerHTML = `<td class='px-4 py-2'>${user.email}</td><td class='px-4 py-2'>${user.role}</td><td class='px-4 py-2'><button class='text-red-600 hover:text-red-900' onclick='removeUser(${idx})'>Remove</button></td>`;
+                body.appendChild(row);
+            });
+        }
+        window.removeUser = function(idx) {
+            if (window.userList) {
+                var removed = window.userList.splice(idx, 1)[0];
+                renderUserTable();
+                logAudit('Remove User', `Email: <span class='font-semibold'>${removed.email}</span>`);
+            }
+        };
+        document.getElementById('addUserBtn').onclick = function() {
+            var email = document.getElementById('newUserEmail').value.trim();
+            var role = document.getElementById('newUserRole').value;
+            if (email && role) {
+                window.userList.push({ email, role });
+                renderUserTable();
+                logAudit('Add User', `Email: <span class='font-semibold'>${email}</span>, Role: ${role}`);
+                document.getElementById('newUserEmail').value = '';
+                document.getElementById('newUserRole').value = 'Official';
+            }
+        };
+        document.addEventListener('DOMContentLoaded', renderUserTable);
+
+        // Fill User Management page with info if empty
+        function fillUserManagementInfo() {
+            var body = document.getElementById('userTableBody');
+            if (body && (!window.userList || window.userList.length === 0)) {
+                body.innerHTML = `<tr><td colspan='3' class='px-4 py-2 text-center text-gray-500'>No users found. Add a user above to get started.</td></tr>`;
+            }
+            var infoBox = document.createElement('div');
+            infoBox.className = 'mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-blue-700';
+            infoBox.innerHTML = `<i class='fas fa-info-circle mr-2'></i>Manage users for your organization. Add, remove, and assign roles. Only Admins can remove users.`;
+            var container = document.getElementById('usermanagementContent');
+            if (container && !container.querySelector('.bg-blue-50')) {
+                container.insertBefore(infoBox, container.firstChild);
+            }
+        }
+        // Fill Help & FAQ page with info if empty
+        function fillHelpFAQInfo() {
+            var container = document.getElementById('helpfaqContent');
+            if (container && !container.querySelector('.bg-yellow-50')) {
+                var faqBox = document.createElement('div');
+                faqBox.className = 'mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-yellow-700';
+                faqBox.innerHTML = `<i class='fas fa-question-circle mr-2'></i>Welcome to the Help & FAQ Center. Find answers to common questions, or contact support via the AI Assistant.`;
+                container.insertBefore(faqBox, container.firstChild);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            fillUserManagementInfo();
+            fillHelpFAQInfo();
+        });
+        // Audit Trail Logic
+        function logAudit(action, details) {
+            var log = document.getElementById('auditTrail');
+            if (!log) return;
+            var entry = document.createElement('div');
+            var now = new Date();
+            entry.innerHTML = `<span class='text-indigo-600 font-medium'>${action}</span> - ${details} <span class='text-gray-400 text-xs'>(${now.toLocaleTimeString()})</span>`;
+            log.prepend(entry);
+        }
+        // Bulk Actions Logic
+        document.getElementById('selectAllDocs').onclick = function() {
+            document.querySelectorAll('.docRowCheckbox').forEach(cb => cb.checked = this.checked);
+        };
+        document.getElementById('selectAllDocsHead').onclick = function() {
+            document.querySelectorAll('.docRowCheckbox').forEach(cb => cb.checked = this.checked);
+            document.getElementById('selectAllDocs').checked = this.checked;
+        };
+        document.getElementById('bulkDownloadBtn').onclick = function() {
+            document.querySelectorAll('.docRowCheckbox:checked').forEach(cb => {
+                // Simulate download
+                cb.closest('tr').querySelector('button.text-gray-600').click();
+            });
+        };
+        document.getElementById('bulkDeleteBtn').onclick = function() {
+            document.querySelectorAll('.docRowCheckbox:checked').forEach(cb => {
+                cb.closest('tr').remove();
+            });
+        };
+        document.getElementById('bulkStatusBtn').onclick = function() {
+            document.querySelectorAll('.docRowCheckbox:checked').forEach(cb => {
+                cb.closest('tr').querySelector('td:nth-child(6) span').textContent = 'Archived';
+            });
+        };
+        document.getElementById('exportCSVBtn').onclick = function() {
+            var rows = Array.from(document.querySelectorAll('.table-container table tbody tr'));
+            var csv = 'Title,Type,Source,Date,Status\n';
+            rows.forEach(row => {
+                var tds = row.querySelectorAll('td');
+                if (tds.length > 1) {
+                    csv += `${tds[1].innerText},${tds[2].innerText},${tds[3].innerText},${tds[4].innerText},${tds[5].innerText}\n`;
+                }
+            });
+            var blob = new Blob([csv], {type: 'text/csv'});
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'documents.csv';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => { document.body.removeChild(a); }, 100);
+        };
+        // Fix: Close upload modal when close button is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            var closeBtn = document.getElementById('closeUploadModal');
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    document.getElementById('uploadModal').classList.add('hidden');
+                    document.getElementById('uploadMessage').textContent = '';
+                };
+            }
+        });
+        // Dark Mode Toggle Logic
+        document.getElementById('darkModeToggle').onclick = function() {
+            var body = document.getElementById('mainBody');
+            body.classList.toggle('dark-mode');
+            this.innerHTML = body.classList.contains('dark-mode')
+                ? '<i class="fas fa-sun"></i> Light Mode'
+                : '<i class="fas fa-moon"></i> Dark Mode';
+        };
+        // Activity Log Logic
+        function logActivity(action, details) {
+            var log = document.getElementById('activityLog');
+            if (!log) return;
+            var entry = document.createElement('div');
+            var now = new Date();
+            entry.innerHTML = `<span class="text-indigo-600 font-medium">${action}</span> - ${details} <span class="text-gray-400 text-xs">(${now.toLocaleTimeString()})</span>`;
+            log.prepend(entry);
+        }
+
+        // Hook into document actions
+        var oldUpload = document.getElementById('documentUploadForm').onsubmit;
+        document.getElementById('documentUploadForm').onsubmit = function(e) {
+            oldUpload.call(this, e);
+            var title = this.docTitle.value.trim();
+            logActivity('Upload', `Document: <span class='font-semibold'>${title}</span>`);
+        };
+
+        window.viewDocument = (function(orig){
+            return function(id, title, fileName, type) {
+                logActivity('View', `Document: <span class='font-semibold'>${title}</span>`);
+                orig(id, title, fileName, type);
+            }
+        })(window.viewDocument);
+
+        window.editDocument = (function(orig){
+            return function(id, title, type) {
+                logActivity('Edit', `Document: <span class='font-semibold'>${title}</span>`);
+                orig(id, title, type);
+            }
+        })(window.editDocument);
+
+        window.downloadDocument = (function(orig){
+            return function(id, fileName) {
+                logActivity('Download', `File: <span class='font-semibold'>${fileName}</span>`);
+                orig(id, fileName);
+            }
+        })(window.downloadDocument);
+        // Document Preview Modal Logic
+        window.viewDocument = function(id, title, fileName, type) {
+            var doc = window.uploadedDocs ? window.uploadedDocs[id] : null;
+            var modal = document.getElementById('docPreviewModal');
+            var content = document.getElementById('docPreviewContent');
+            if (doc && doc.file) {
+                var file = doc.file;
+                var url = URL.createObjectURL(file);
+                content.innerHTML = '';
+                if (file.type === 'application/pdf') {
+                    content.innerHTML = `<iframe src="${url}" width="100%" height="400px"></iframe>`;
+                } else if (file.type.startsWith('image/')) {
+                    content.innerHTML = `<img src="${url}" alt="${title}" class="max-h-96 mx-auto" />`;
+                } else {
+                    content.innerHTML = `<div class="text-center text-gray-600">No preview available for this file type.<br><a href="${url}" download="${fileName}" class="text-indigo-600 underline">Download</a></div>`;
+                }
+                modal.classList.remove('hidden');
+            } else {
+                alert(`View Document\nTitle: ${title}\nType: ${type}\nFile: ${fileName}`);
+            }
+        };
+        document.getElementById('closeDocPreviewModal').onclick = function() {
+            document.getElementById('docPreviewModal').classList.add('hidden');
+            document.getElementById('docPreviewContent').innerHTML = '';
+        };
+        // Document Search & Filter Logic
+        function filterDocuments() {
+            var search = document.getElementById('docSearchInput').value.toLowerCase();
+            var type = document.getElementById('docTypeFilter').value;
+            var status = document.getElementById('docStatusFilter').value;
+            var date = document.getElementById('docDateFilter').value;
+            var rows = document.querySelectorAll('.table-container table tbody tr');
+            rows.forEach(function(row) {
+                var title = row.querySelector('.text-sm.font-medium.text-gray-900')?.textContent.toLowerCase() || '';
+                var typeText = row.querySelector('td:nth-child(2) span')?.textContent || '';
+                var statusText = row.querySelector('td:nth-child(5) span')?.textContent || '';
+                var dateText = row.querySelector('td:nth-child(4)')?.textContent || '';
+                var show = true;
+                if (search && !title.includes(search)) show = false;
+                if (type && typeText !== type) show = false;
+                if (status && statusText !== status) show = false;
+                if (date && dateText.indexOf(date) === -1) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        document.getElementById('docSearchInput').addEventListener('input', filterDocuments);
+        document.getElementById('docTypeFilter').addEventListener('change', filterDocuments);
+        document.getElementById('docStatusFilter').addEventListener('change', filterDocuments);
+        document.getElementById('docDateFilter').addEventListener('change', filterDocuments);
+        document.getElementById('docFilterClear').addEventListener('click', function() {
+            document.getElementById('docSearchInput').value = '';
+            document.getElementById('docTypeFilter').value = '';
+            document.getElementById('docStatusFilter').value = '';
+            document.getElementById('docDateFilter').value = '';
+            filterDocuments();
+        });
+        // Restore Upload Document button event listener
+        document.getElementById('openUploadModal').onclick = function() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+            var msg = document.getElementById('uploadMessage');
+            msg.textContent = 'Please fill out the form and select a file to upload.';
+            msg.className = 'mt-3 text-sm text-center text-blue-600';
+        };
+        // Forgot Password Modal Logic
+        document.getElementById('forgotPasswordLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+        };
+        document.getElementById('closeForgotPasswordModal').onclick = function() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+            document.getElementById('forgotPasswordMessage').textContent = '';
+        };
+        document.getElementById('forgotPasswordForm').onsubmit = function(e) {
+            e.preventDefault();
+            var email = document.getElementById('forgotEmail').value.trim();
+            var messageDiv = document.getElementById('forgotPasswordMessage');
+            // Simulate password reset logic
+            if (!email) {
+                messageDiv.textContent = 'Please enter your registered email.';
+                messageDiv.className = 'mt-3 text-sm text-center text-red-600';
+                return;
+            }
+            // Check if user exists
+            var userExists = false;
+            if (window.AppState && AppState.database && AppState.database.users) {
+                userExists = AppState.database.users.some(function(u) { return u.email === email; });
+            }
+            if (userExists) {
+                messageDiv.textContent = 'A password reset link has been sent to your email.';
+                messageDiv.className = 'mt-3 text-sm text-center text-green-600';
+            } else {
+                messageDiv.textContent = 'No account found with that email.';
+                messageDiv.className = 'mt-3 text-sm text-center text-red-600';
+            }
+        };
+        // Efficient App State Management
+        const AppState = {
+            database: {
+                users: [
+                    { email: 'user@education.gov.in', password: 'User@123', role: 'Official', department: 'Higher Education Department', firstName: 'Regular', lastName: 'User' },
+                    { email: 'director@ugc.gov.in', password: 'Director@123', role: 'Director', department: 'University Grants Commission', firstName: 'UGC', lastName: 'Director' },
+                    { email: 'chairman@aicte.gov.in', password: 'Chairman@123', role: 'Chairman', department: 'AICTE', firstName: 'AICTE', lastName: 'Chairman' }
+                ]
+            },
+            currentSession: null,
+            sessionTimer: null,
+            rateLimitStore: new Map(),
+            MAX_ATTEMPTS: 5,
+            LOCKOUT_TIME: 15 * 60 * 1000
+        };
+        
+        // Load registered users from localStorage
+        const savedUsers = localStorage.getItem('registeredUsers');
+        if (savedUsers) {
+            AppState.database.users = [...AppState.database.users, ...JSON.parse(savedUsers)];
+        }
+        
+        // Efficient DOM Caching
+        const Elements = {
+            loginPage: document.getElementById('loginPage'),
+            registerPage: document.getElementById('registerPage'),
+            dashboardPage: document.getElementById('dashboardPage'),
+            signInForm: document.getElementById('signInForm'),
+            registerForm: document.getElementById('registerForm'),
+            alertsContainer: document.getElementById('alertsContainer'),
+            regAlertsContainer: document.getElementById('regAlertsContainer'),
+            captchaText: document.getElementById('captchaText'),
+            regCaptchaText: document.getElementById('regCaptchaText')
+        };
+        
+        // Efficient Utility Functions
+        const Utils = {
+            generateCaptcha() {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+                let captcha = '';
+                for (let i = 0; i < 6; i++) {
+                    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return captcha;
+            },
+            
+            validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            },
+            
+            validatePassword2025(password, firstName, lastName, email) {
+                return {
+                    length: password.length >= 8 && password.length <= 16,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /[0-9]/.test(password),
+                    special: /[@#$%&!?*]/.test(password),
+                    noSpaces: !/\s/.test(password),
+                    noPersonalInfo: !this.containsPersonalInfo(password, firstName, lastName, email)
+                };
+            },
+            
+            containsPersonalInfo(password, firstName, lastName, email) {
+                const lowerPassword = password.toLowerCase();
+                const lowerFirstName = firstName?.toLowerCase() || '';
+                const lowerLastName = lastName?.toLowerCase() || '';
+                const lowerEmail = email?.toLowerCase() || '';
+                
+                if (lowerFirstName && lowerPassword.includes(lowerFirstName)) return true;
+                if (lowerLastName && lowerPassword.includes(lowerLastName)) return true;
+                if (lowerEmail) {
+                    const emailParts = lowerEmail.split('@');
+                    if (lowerPassword.includes(emailParts[0])) return true;
+                }
+                return false;
+            },
+            
+            showAlert(container, type, message) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `p-3 rounded-lg mb-2 fade-in ${
+                    type === 'error' ? 'bg-red-50 border border-red-200 text-red-700' :
+                    type === 'success' ? 'bg-green-50 border border-green-200 text-green-700' :
+                    'bg-yellow-50 border border-yellow-200 text-yellow-700'
+                }`;
+                alertDiv.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas ${
+                            type === 'error' ? 'fa-exclamation-circle text-red-500' :
+                            type === 'success' ? 'fa-check-circle text-green-500' :
+                            'fa-clock text-yellow-500'
+                        } mr-2"></i>
+                        <span class="text-sm">${message}</span>
+                    </div>
+                `;
+                container.innerHTML = '';
+                container.appendChild(alertDiv);
+                setTimeout(() => alertDiv.remove(), 5000);
+            },
+            
+            showFieldError(fieldId, message) {
+                const field = document.getElementById(fieldId);
+                field.classList.add('input-error');
+                field.setAttribute('aria-invalid', 'true');
+                field.setAttribute('aria-describedby', `${fieldId}Error`);
+                
+                let errorElement = document.getElementById(`${fieldId}Error`);
+                if (!errorElement) {
+                    errorElement = document.createElement('p');
+                    errorElement.id = `${fieldId}Error`;
+                    errorElement.className = 'mt-1 text-xs text-red-500';
+                    field.parentNode.appendChild(errorElement);
+                }
+                errorElement.innerHTML = `<i class="fas fa-exclamation-triangle mr-1"></i>${message}`;
+            },
+            
+            hideFieldError(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.classList.remove('input-error');
+                field.removeAttribute('aria-invalid');
+                field.removeAttribute('aria-describedby');
+                
+                const errorElement = document.getElementById(`${fieldId}Error`);
+                if (errorElement) errorElement.remove();
+            },
+            
+            createJWT(user) {
+                const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+                const payload = btoa(JSON.stringify({
+                    email: user.email,
+                    role: user.role,
+                    department: user.department,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    iat: Date.now(),
+                    exp: Date.now() + (30 * 60 * 1000)
+                }));
+                return `${header}.${payload}.${btoa('signature')}`;
+            },
+            
+            startSessionTimer() {
+                let timeLeft = 30 * 60;
+                if (AppState.sessionTimer) clearInterval(AppState.sessionTimer);
+                
+                AppState.sessionTimer = setInterval(() => {
+                    timeLeft--;
+                    const timerElement = document.getElementById('sessionTimer');
+                    if (timerElement) {
+                        timerElement.textContent = 
+                            `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                    }
+                    if (timeLeft <= 0) {
+                        clearInterval(AppState.sessionTimer);
+                        Auth.signOut();
+                        Utils.showAlert(Elements.alertsContainer, 'error', 'Session expired. Please sign in again.');
+                    }
+                }, 1000);
+            }
+        };
+        
+        // Efficient Authentication Module
+        const Auth = {
+            currentCaptcha: '',
+            currentRegCaptcha: '',
+            
+            init() {
+                this.refreshCaptchas();
+                this.setupEventListeners();
+                this.checkExistingSession();
+            },
+            
+            refreshCaptchas() {
+                this.currentCaptcha = Utils.generateCaptcha();
+                this.currentRegCaptcha = Utils.generateCaptcha();
+                Elements.captchaText.textContent = this.currentCaptcha;
+                Elements.regCaptchaText.textContent = this.currentRegCaptcha;
+            },
+            
+            checkRateLimit(email) {
+                const now = Date.now();
+                const attempts = AppState.rateLimitStore.get(email) || { count: 0, lastAttempt: 0 };
+                
+                if (now - attempts.lastAttempt > AppState.LOCKOUT_TIME) {
+                    AppState.rateLimitStore.delete(email);
+                    return { allowed: true };
+                }
+                
+                if (attempts.count >= AppState.MAX_ATTEMPTS) {
+                    const remainingTime = Math.ceil((AppState.LOCKOUT_TIME - (now - attempts.lastAttempt)) / 60000);
+                    return { allowed: false, message: `Too many attempts. Try again in ${remainingTime} minutes.` };
+                }
+                
+                return { allowed: true };
+            },
+            
+            updateRateLimit(email, success) {
+                if (success) {
+                    AppState.rateLimitStore.delete(email);
+                } else {
+                    const attempts = AppState.rateLimitStore.get(email) || { count: 0, lastAttempt: 0 };
+                    attempts.count++;
+                    attempts.lastAttempt = Date.now();
+                    AppState.rateLimitStore.set(email, attempts);
+                }
+            },
+            
+            async signIn(email, password, captcha) {
+                const rateLimitCheck = this.checkRateLimit(email);
+                if (!rateLimitCheck.allowed) {
+                    Utils.showAlert(Elements.alertsContainer, 'rateLimit', rateLimitCheck.message);
+                    return false;
+                }
+                
+                const user = AppState.database.users.find(u => u.email === email);
+                
+                if (!user || user.password !== password) {
+                    this.updateRateLimit(email, false);
+                    Utils.showAlert(Elements.alertsContainer, 'error', 'Invalid credentials.');
+                    return false;
+                }
+                
+                this.updateRateLimit(email, true);
+                AppState.currentSession = Utils.createJWT(user);
+                localStorage.setItem('session', AppState.currentSession);
+                
+                document.getElementById('userRole').textContent = user.role;
+                document.getElementById('welcomeUser').textContent = `${user.firstName} ${user.lastName}`;
+                
+                return true;
+            },
+            
+            async register(userData) {
+                if (AppState.database.users.some(u => u.email === userData.email)) {
+                    Utils.showAlert(Elements.regAlertsContainer, 'error', 'Email already registered.');
+                    return false;
+                }
+                
+                AppState.database.users.push(userData);
+                
+                const registeredUsers = AppState.database.users.filter(u => 
+                    !['user@education.gov.in', 'director@ugc.gov.in', 'chairman@aicte.gov.in'].includes(u.email)
+                );
+                localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                
+                return true;
+            },
+            
+            signOut() {
+                if (AppState.sessionTimer) clearInterval(AppState.sessionTimer);
+                localStorage.removeItem('session');
+                AppState.currentSession = null;
+                Elements.dashboardPage.classList.add('hidden');
+                Elements.loginPage.classList.remove('hidden');
+            },
+            
+            checkExistingSession() {
+                const existingSession = localStorage.getItem('session');
+                if (existingSession) {
+                    try {
+                        const payload = JSON.parse(atob(existingSession.split('.')[1]));
+                        if (payload.exp > Date.now()) {
+                            AppState.currentSession = existingSession;
+                            document.getElementById('userRole').textContent = payload.role;
+                            document.getElementById('welcomeUser').textContent = `${payload.firstName} ${payload.lastName}`;
+                            Elements.loginPage.classList.add('hidden');
+                            Elements.dashboardPage.classList.remove('hidden');
+                            Utils.startSessionTimer();
+                        }
+                    } catch (e) {
+                        localStorage.removeItem('session');
+                    }
+                }
+            },
+            
+            setupEventListeners() {
+                // Login form
+                Elements.signInForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
+                    const captcha = document.getElementById('captchaInput').value;
+                    
+                    if (!email || !password || !captcha) {
+                        Utils.showAlert(Elements.alertsContainer, 'error', 'Please fill all fields.');
+                        return;
+                    }
+                    
+                    if (!Utils.validateEmail(email)) {
+                        Utils.showAlert(Elements.alertsContainer, 'error', 'Invalid email format.');
+                        return;
+                    }
+                    
+                    if (captcha !== this.currentCaptcha) {
+                        Utils.showAlert(Elements.alertsContainer, 'error', 'Invalid security code.');
+                        return;
+                    }
+                    
+                    const signInButton = document.getElementById('signInButton');
+                    const buttonText = document.getElementById('signInButtonText');
+                    const loader = document.getElementById('signInLoader');
+                    
+                    signInButton.disabled = true;
+                    buttonText.textContent = 'Authenticating...';
+                    loader.classList.remove('hidden');
+                    
+                    setTimeout(async () => {
+                        const success = await this.signIn(email, password, captcha);
+                        if (success) {
+                            Utils.showAlert(Elements.alertsContainer, 'success', 'Login successful! Redirecting...');
+                            setTimeout(() => {
+                                Elements.loginPage.classList.add('hidden');
+                                Elements.dashboardPage.classList.remove('hidden');
+                                Utils.startSessionTimer();
+                            }, 1000);
+                        }
+                        
+                        signInButton.disabled = false;
+                        buttonText.textContent = 'Login Now';
+                        loader.classList.add('hidden');
+                        this.refreshCaptchas();
+                        document.getElementById('captchaInput').value = '';
+                    }, 1000);
+                });
+                
+                // Registration form
+                Elements.registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const email = document.getElementById('regEmail').value.trim();
+                    const department = document.getElementById('department').value;
+                    const role = document.getElementById('role').value;
+                    const password = document.getElementById('regPassword').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    const captcha = document.getElementById('regCaptchaInput').value;
+                    const agreeTerms = document.getElementById('agreeTerms').checked;
+                    
+                    if (!firstName || !lastName || !email || !department || !role || !password || !confirmPassword || !captcha || !agreeTerms) {
+                        Utils.showAlert(Elements.regAlertsContainer, 'error', 'Please fill all fields and agree to terms.');
+                        return;
+                    }
+                    
+                    if (!Utils.validateEmail(email)) {
+                        Utils.showAlert(Elements.regAlertsContainer, 'error', 'Invalid email format.');
+                        return;
+                    }
+                    
+                    const passwordRules = Utils.validatePassword2025(password, firstName, lastName, email);
+                    const validRules = Object.values(passwordRules).filter(Boolean).length;
+                    if (validRules < 5) {
+                        Utils.showAlert(Elements.regAlertsContainer, 'error', 'Password does not meet security requirements.');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        Utils.showAlert(Elements.regAlertsContainer, 'error', 'Passwords do not match.');
+                        return;
+                    }
+                    
+                    if (captcha !== this.currentRegCaptcha) {
+                        Utils.showAlert(Elements.regAlertsContainer, 'error', 'Invalid security code.');
+                        return;
+                    }
+                    
+                    const registerButton = document.getElementById('registerButton');
+                    const buttonText = document.getElementById('registerButtonText');
+                    const loader = document.getElementById('registerLoader');
+                    
+                    registerButton.disabled = true;
+                    buttonText.textContent = 'Creating...';
+                    loader.classList.remove('hidden');
+                    
+                    setTimeout(async () => {
+                        const userData = { email, password, role, department, firstName, lastName };
+                        const success = await this.register(userData);
+                        
+                        if (success) {
+                            Utils.showAlert(Elements.regAlertsContainer, 'success', 'Account created! Redirecting to login...');
+                            Elements.registerForm.reset();
+                            this.resetPasswordRules();
+                            setTimeout(() => {
+                                Elements.registerPage.classList.add('hidden');
+                                Elements.loginPage.classList.remove('hidden');
+                            }, 1500);
+                        }
+                        
+                        registerButton.disabled = false;
+                        buttonText.textContent = 'Create Account';
+                        loader.classList.add('hidden');
+                        this.refreshCaptchas();
+                    }, 1000);
+                });
+                
+                // Password strength checker
+                document.getElementById('regPassword').addEventListener('input', (e) => {
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const email = document.getElementById('regEmail').value;
+                    this.updatePasswordRules(e.target.value, firstName, lastName, email);
+                });
+                
+                // Navigation
+                document.getElementById('registerButton').addEventListener('click', () => {
+                    Elements.loginPage.classList.add('hidden');
+                    Elements.registerPage.classList.remove('hidden');
+                    this.refreshCaptchas();
+                });
+                
+                // Back to Login button
+                document.getElementById('backToLoginButton').addEventListener('click', () => {
+                    Elements.registerPage.classList.add('hidden');
+                    Elements.loginPage.classList.remove('hidden');
+                    this.refreshCaptchas();
+                });
+                
+                // Password visibility toggles
+                document.getElementById('togglePassword').addEventListener('click', () => {
+                    const passwordInput = document.getElementById('password');
+                    const type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    document.querySelector('#togglePassword i').className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+                });
+                
+                document.getElementById('toggleRegPassword').addEventListener('click', () => {
+                    const passwordInput = document.getElementById('regPassword');
+                    const type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    document.querySelector('#toggleRegPassword i').className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+                });
+                
+                // CAPTCHA refresh
+                document.getElementById('refreshCaptcha').addEventListener('click', () => {
+                    this.currentCaptcha = Utils.generateCaptcha();
+                    Elements.captchaText.textContent = this.currentCaptcha;
+                });
+                
+                document.getElementById('refreshRegCaptcha').addEventListener('click', () => {
+                    this.currentRegCaptcha = Utils.generateCaptcha();
+                    Elements.regCaptchaText.textContent = this.currentRegCaptcha;
+                });
+                
+                // Sign out
+                document.getElementById('signOutButton').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.signOut();
+                });
+                
+                // User menu
+                document.getElementById('userMenuButton').addEventListener('click', () => {
+                    document.getElementById('userMenu').classList.toggle('hidden');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#userMenuButton') && !e.target.closest('#userMenu')) {
+                        document.getElementById('userMenu').classList.add('hidden');
+                    }
+                });
+            },
+            
+            updatePasswordRules(password, firstName, lastName, email) {
+                const rules = Utils.validatePassword2025(password, firstName, lastName, email);
+                
+                Object.keys(rules).forEach(rule => {
+                    const element = document.getElementById(`rule${rule.charAt(0).toUpperCase() + rule.slice(1)}`);
+                    if (element) {
+                        const icon = element.querySelector('i');
+                        if (rules[rule]) {
+                            element.classList.add('valid');
+                            element.classList.remove('invalid');
+                            icon.className = 'fas fa-check-circle text-xs mr-1 text-green-500';
+                        } else {
+                            element.classList.add('invalid');
+                            element.classList.remove('valid');
+                            icon.className = 'fas fa-circle text-xs mr-1';
+                            icon.style.color = '#ef4444';
+                        }
+                    }
+                });
+            },
+            
+            resetPasswordRules() {
+                const ruleIds = ['ruleLength', 'ruleUppercase', 'ruleLowercase', 'ruleNumber', 'ruleSpecial'];
+                ruleIds.forEach(ruleId => {
+                    const element = document.getElementById(ruleId);
+                    if (element) {
+                        element.classList.remove('valid', 'invalid');
+                        const icon = element.querySelector('i');
+                        icon.className = 'fas fa-circle text-xs mr-1';
+                        icon.style.color = '#6b7280';
+                    }
+                });
+            }
+        };
+        
+        // Page Navigation Module
+        const Navigation = {
+            init() {
+                this.setupNavigation();
+            },
+            
+            setupNavigation() {
+                // Navigation links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const page = e.target.getAttribute('data-page');
+                        this.switchPage(page);
+                    });
+                });
+            },
+            
+            switchPage(pageName) {
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                });
+                
+                // Show selected page
+                const targetPage = document.getElementById(`${pageName}Content`);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    targetPage.classList.remove('hidden');
+                }
+                
+                // Update nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('data-page') === pageName) {
+                        link.classList.remove('text-gray-500');
+                        link.classList.add('text-gray-700', 'font-bold');
+                    } else {
+                        link.classList.remove('text-gray-700', 'font-bold');
+                        link.classList.add('text-gray-500');
+                    }
+                });
+            }
+        };
+        
+        // Notification Module
+        const Notifications = {
+            init() {
+                this.setupNotifications();
+            },
+            
+            setupNotifications() {
+                const notificationButton = document.getElementById('notificationButton');
+                const notificationsDropdown = document.getElementById('notificationsDropdown');
+                
+                notificationButton.addEventListener('click', () => {
+                    notificationsDropdown.classList.toggle('hidden');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#notificationButton') && !e.target.closest('#notificationsDropdown')) {
+                        notificationsDropdown.classList.add('hidden');
+                    }
+                });
+            }
+        };
+        
+        // Efficient Search Module
+        const Search = {
+            mockResults: [
+                { title: "National Education Policy 2023", type: "Policy", source: "MoE", date: "Oct 15, 2023", summary: "Comprehensive reforms in higher education", relevance: 95 },
+                { title: "UGC Accreditation Framework", type: "Regulation", source: "UGC", date: "Oct 10, 2023", summary: "Updated institutional accreditation criteria", relevance: 88 },
+                { title: "Digital Learning Initiative", type: "Scheme", source: "AICTE", date: "Oct 5, 2023", summary: "Promoting digital education infrastructure", relevance: 82 },
+                { title: "Research Excellence Program", type: "Project", source: "MoE", date: "Sep 28, 2023", summary: "Enhancing research capabilities", relevance: 75 }
+            ],
+            
+            init() {
+                document.getElementById('searchButton').addEventListener('click', () => this.performSearch());
+                document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                // Filter tags
+                document.querySelectorAll('.filter-tag').forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        tag.classList.toggle('active');
+                    });
+                });
+            },
+            
+            performSearch() {
+                const query = document.getElementById('searchInput').value.trim();
+                if (!query) return;
+                
+                const resultsContainer = document.getElementById('searchResults');
+                if (!resultsContainer) {
+                    // Create results container if it doesn't exist
+                    const container = document.createElement('div');
+                    container.id = 'searchResults';
+                    container.className = 'mt-4';
+                    document.querySelector('.bg-white.rounded-lg.shadow').appendChild(container);
+                }
+                
+                const container = document.getElementById('searchResults');
+                container.innerHTML = '<div class="typing-indicator flex justify-center py-3"><span></span><span></span><span></span></div>';
+                
+                setTimeout(() => {
+                    container.innerHTML = '<h3 class="text-sm font-semibold text-gray-800 mb-3">Search Results</h3>';
+                    this.mockResults.forEach(result => {
+                        const resultCard = document.createElement('div');
+                        resultCard.className = 'bg-gray-50 rounded-lg p-3 mb-2 hover:bg-gray-100 transition-colors';
+                        resultCard.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-sm font-medium text-gray-800">${result.title}</h4>
+                                <span class="text-xs text-gray-500">${result.relevance}%</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${this.getTypeColor(result.type)}">
+                                    ${result.type}
+                                </span>
+                                <span class="text-xs text-gray-500">${result.source}</span>
+                                <span class="text-xs text-gray-500">${result.date}</span>
+                            </div>
+                            <p class="text-xs text-gray-600">${result.summary}</p>
+                        `;
+                        container.appendChild(resultCard);
+                    });
+                }, 800);
+            },
+            
+            getTypeColor(type) {
+                const colors = {
+                    'Policy': 'bg-blue-100 text-blue-800',
+                    'Regulation': 'bg-purple-100 text-purple-800',
+                    'Scheme': 'bg-green-100 text-green-800',
+                    'Project': 'bg-yellow-100 text-yellow-800'
+                };
+                return colors[type] || 'bg-gray-100 text-gray-800';
+            }
+        };
+        
+        // Efficient AI Assistant Module
+        const AIAssistant = {
+            init() {
+                document.getElementById('aiAssistantButton').addEventListener('click', () => {
+                    document.getElementById('aiAssistantPanel').classList.toggle('hidden');
+                });
+                
+                document.getElementById('closeAssistant').addEventListener('click', () => {
+                    document.getElementById('aiAssistantPanel').classList.add('hidden');
+                });
+                
+                document.getElementById('sendMessage').addEventListener('click', () => this.sendMessage());
+                document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+            },
+            
+            sendMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                if (!message) return;
+                
+                this.addMessage(message, true);
+                input.value = '';
+                
+                // Add typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'flex items-start';
+                typingDiv.innerHTML = `
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-1.5">
+                        <i class="fas fa-robot text-indigo-600 text-xs"></i>
+                    </div>
+                    <div class="ml-2 bg-gray-100 rounded-lg p-2">
+                        <div class="typing-indicator"><span></span><span></span><span></span></div>
+                    </div>
+                `;
+                document.getElementById('chatMessages').appendChild(typingDiv);
+                
+                setTimeout(() => {
+                    typingDiv.remove();
+                    const response = this.generateResponse(message);
+                    this.addMessage(response, false);
+                }, 1000);
+            },
+            
+            addMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex items-start chat-message';
+                messageDiv.innerHTML = isUser ? `
+                    <div class="ml-auto bg-indigo-600 text-white rounded-lg p-2 max-w-xs">
+                        <p class="text-xs">${message}</p>
+                    </div>
+                    <div class="flex-shrink-0 bg-gray-100 rounded-full p-1.5 ml-2">
+                        <i class="fas fa-user text-gray-600 text-xs"></i>
+                    </div>
+                ` : `
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-1.5">
+                        <i class="fas fa-robot text-indigo-600 text-xs"></i>
+                    </div>
+                    <div class="ml-2 bg-gray-100 rounded-lg p-2 max-w-xs">
+                        <p class="text-xs text-gray-800">${message}</p>
+                    </div>
+                `;
+                
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            },
+            
+            generateResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('policy')) {
+                    return "I found several policies. The National Education Policy 2023 introduces comprehensive reforms. Would you like details?";
+                } else if (lowerMessage.includes('regulation')) {
+                    return "The UGC Accreditation Framework was updated recently. It focuses on research output and quality standards.";
+                } else if (lowerMessage.includes('scheme')) {
+                    return "The Digital Learning Initiative by AICTE promotes digital education infrastructure and content creation.";
+                } else if (lowerMessage.includes('project')) {
+                    return "The Research Excellence Program enhances research capabilities with funding opportunities.";
+                } else {
+                    return "I can help you find information about regulations, policies, schemes, and projects. What would you like to know?";
+                }
+            }
+        };
+        
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.init();
+            Navigation.init();
+            Notifications.init();
+            Search.init();
+            AIAssistant.init();
+        });
+        
+        // Upload Document Button Logic
+        document.getElementById('documentUploadForm').onsubmit = function(e) {
+            e.preventDefault();
+            var title = this.docTitle.value.trim();
+            var type = this.docType.value;
+            var file = this.docFile.files[0];
+            var msg = document.getElementById('uploadMessage');
+            if (!title || !type || !file) {
+                msg.textContent = 'Please fill all fields and select a file.';
+                msg.className = 'mt-3 text-sm text-center text-red-600';
+                return;
+            }
+            // Add document to table with working actions
+            var table = document.querySelector('.table-container table tbody');
+            var newRow = document.createElement('tr');
+            newRow.className = 'hover:bg-gray-50';
+            var docId = 'doc_' + Date.now();
+            newRow.innerHTML = `
+                <td class="px-4 py-2">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-8 w-8 bg-indigo-100 rounded flex items-center justify-center">
+                            <i class="fas fa-file-alt text-indigo-600 text-xs"></i>
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-gray-900">${title}</div>
+                            <div class="text-xs text-gray-500">${file.name}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-4 py-2">
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${type}</span>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-500">Uploaded</td>
+                <td class="px-4 py-2 text-sm text-gray-500">${new Date().toLocaleDateString()}</td>
+                <td class="px-4 py-2">
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                </td>
+                <td class="px-4 py-2 text-sm font-medium">
+                    <button class="text-indigo-600 hover:text-indigo-900 mr-2" onclick="viewDocument('${docId}', '${title}', '${file.name}', '${type}')">View</button>
+                    <button class="text-gray-600 hover:text-gray-900 mr-2" onclick="editDocument('${docId}', '${title}', '${type}')">Edit</button>
+                    <button class="text-gray-600 hover:text-gray-900" onclick="downloadDocument('${docId}', '${file.name}')">Download</button>
+                </td>`;
+            table.appendChild(newRow);
+            // Store document data in window for demo
+            if (!window.uploadedDocs) window.uploadedDocs = {};
+            window.uploadedDocs[docId] = { title, type, fileName: file.name, file };
+            msg.textContent = 'Document uploaded successfully!';
+            msg.className = 'mt-3 text-sm text-center text-green-600';
+            setTimeout(function() {
+                document.getElementById('uploadModal').classList.add('hidden');
+                msg.textContent = '';
+                document.getElementById('documentUploadForm').reset();
+            }, 1500);
+        };
+
+        // Document actions
+        window.viewDocument = function(id, title, fileName, type) {
+            alert(`View Document\nTitle: ${title}\nType: ${type}\nFile: ${fileName}`);
+        };
+        window.editDocument = function(id, title, type) {
+            var newTitle = prompt('Edit Document Title:', title);
+            if (newTitle && newTitle !== title) {
+                // Find and update the row
+                var rows = document.querySelectorAll('.table-container table tbody tr');
+                rows.forEach(function(row) {
+                    if (row.innerHTML.includes(title)) {
+                        row.querySelector('.text-sm.font-medium.text-gray-900').textContent = newTitle;
+                        if (window.uploadedDocs && window.uploadedDocs[id]) window.uploadedDocs[id].title = newTitle;
+                    }
+                });
+            }
+        };
+        window.downloadDocument = function(id, fileName) {
+            if (window.uploadedDocs && window.uploadedDocs[id] && window.uploadedDocs[id].file) {
+                var url = URL.createObjectURL(window.uploadedDocs[id].file);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            } else {
+                alert('File not found.');
+            }
+        };
+    </script>
+    <script>
+// ---------- LOGIN ----------
+document.getElementById("signInForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    const res = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Login Successful for " + email);
+      // Example: switch to dashboard
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("dashboardPage").classList.remove("hidden");
+    } else {
+      alert("❌ " + data.error);
+    }
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+});
+
+
+// ---------- REGISTER ----------
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const firstName = document.getElementById("firstName").value;
+  const lastName = document.getElementById("lastName").value;
+  const email = document.getElementById("regEmail").value;
+  const password = document.getElementById("regPassword").value;
+
+  try {
+    const res = await fetch("http://localhost:8080/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, firstName, lastName })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Registration Successful!");
+      // go back to login page
+      document.getElementById("registerPage").classList.add("hidden");
+      document.getElementById("loginPage").classList.remove("hidden");
+    } else {
+      alert("❌ " + data.error);
+    }
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+});
+
+
+  // ---------- UPLOAD DOCUMENT ----------
+  <!--async function uploadDocument(title, type, tags) {
+   try {
+    const res = await fetch("http://localhost:8080/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, type, tags })
+    });
+    const data = await res.json();
+    alert("📄 Upload Response: " + JSON.stringify(data));
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+}
+</script>
+<script>
+async function loadDocuments() {
+  try {
+    const res = await fetch("http://localhost:8080/api/getDocuments");
+    const docs = await res.json();
+
+    const tableBody = document.getElementById("docTableBody");
+    tableBody.innerHTML = "";
+
+    if (docs.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='5'>No documents found.</td></tr>";
+      return;
+    }
+
+    docs.forEach(doc => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${doc.title || "-"}</td>
+        <td>${doc.type || "-"}</td>
+        <td>${doc.tags || "-"}</td>
+        <td>${doc.date || "-"}</td>
+        <td>${doc.status || "-"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (err) {
+    alert("⚠️ Error loading documents: " + err.message);
+  }
+}
+</script>
+<script>
+async function uploadDocument(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("docTitle").value;
+  const type = document.getElementById("docType").value;
+  const tags = document.getElementById("docTags").value;
+
+  try {
+    const res = await fetch("http://localhost:8080/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, type, tags })
+    });
+
+    const data = await res.json();
+    alert("✅ " + data.message);
+
+    // reload the document list automatically
+    loadDocuments();
+  } catch (err) {
+    alert("⚠️ Error uploading document: " + err.message);
+  }
+}
+
+async function loadDocuments() {
+  try {
+    const res = await fetch("http://localhost:8080/api/getDocuments");
+    const docs = await res.json();
+
+    const tableBody = document.getElementById("docTableBody");
+    tableBody.innerHTML = "";
+
+    if (docs.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='5'>No documents found.</td></tr>";
+      return;
+    }
+
+    docs.forEach(doc => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${doc.title || "-"}</td>
+        <td>${doc.type || "-"}</td>
+        <td>${doc.tags || "-"}</td>
+        <td>${doc.date || "-"}</td>
+        <td>${doc.status || "-"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (err) {
+    alert("⚠️ Error loading documents: " + err.message);
+  }
+}
+</script>--> 
+<script>
+async function uploadDocument(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("docTitle").value;
+  const type = document.getElementById("docType").value;
+  const tags = document.getElementById("docTags").value;
+
+  try {
+    const res = await fetch("http://127.0.0.1:8080/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, type, tags })
+    });
+
+    const data = await res.json();
+    alert("✅ " + data.message);
+
+    // reload the document list automatically
+    loadDocuments();
+  } catch (err) {
+    alert("⚠️ Error uploading document: " + err.message);
+  }
+}
+
+async function loadDocuments() {
+  try {
+    const res = await fetch("http://127.0.0.1:8080/api/getDocuments");
+    const docs = await res.json();
+
+    const tableBody = document.getElementById("docTableBody");
+    tableBody.innerHTML = "";
+
+    if (docs.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='5'>No documents found.</td></tr>";
+      return;
+    }
+
+    docs.forEach(doc => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${doc.title || "-"}</td>
+        <td>${doc.type || "-"}</td>
+        <td>${doc.tags || "-"}</td>
+        <td>${doc.date || "-"}</td>
+        <td>${doc.status || "-"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (err) {
+    alert("⚠️ Error loading documents: " + err.message);
+  }
+}
+</script>
+<!-- <script>
+async function uploadDocument(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("docTitle").value;
+  const type = document.getElementById("docType").value;
+  const tags = document.getElementById("docTags").value;
+
+  try {
+    const res = await fetch("http://127.0.0.1:8080/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, type, tags })
+    });
+
+    const data = await res.json();
+    alert("✅ " + data.message);
+
+    // Reload the document list automatically
+    loadDocuments();
+  } catch (err) {
+    alert("⚠️ Error uploading document: " + err.message);
+  }
+}
+
+async function loadDocuments() {
+  try {
+    const res = await fetch("http://127.0.0.1:8080/api/getDocuments");
+    const docs = await res.json();
+
+    const tableBody = document.getElementById("docTableBody");
+    tableBody.innerHTML = "";
+
+    if (docs.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='5'>No documents found.</td></tr>";
+      return;
+    }
+
+    docs.forEach(doc => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${doc.title || "-"}</td>
+        <td>${doc.type || "-"}</td>
+        <td>${doc.tags || "-"}</td>
+        <td>${doc.date || "-"}</td>
+        <td>${doc.status || "-"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (err) {
+    alert("⚠️ Error loading documents: " + err.message);
+  }
+}
+</script> -->
+
+
+</body>
+</html>
